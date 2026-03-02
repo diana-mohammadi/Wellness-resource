@@ -1,0 +1,1370 @@
+{
+	"info": {
+		"_postman_id": "wellness-hub-collection",
+		"name": "Wellness Hub API Collection",
+		"description": "Complete API collection for GBC Student Wellness Hub - COMP3095 Assignment 2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "gateway_url",
+			"value": "http://localhost:9000"
+		},
+		{
+			"key": "keycloak_url",
+			"value": "http://localhost:8180"
+		},
+		{
+			"key": "staff_token",
+			"value": ""
+		},
+		{
+			"key": "student_token",
+			"value": ""
+		},
+		{
+			"key": "admin_token",
+			"value": ""
+		},
+		{
+			"key": "client_credentials_token",
+			"value": ""
+		}
+	],
+	"item": [
+		{
+			"name": "1. Authentication",
+			"item": [
+				{
+					"name": "1.1 Get Staff Token (Resource Owner Password)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.access_token) {",
+									"    pm.collectionVariables.set(\"staff_token\", jsonData.access_token);",
+									"    console.log(\"Staff token saved successfully!\");",
+									"}",
+									"",
+									"pm.test(\"Token received successfully\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(jsonData.access_token).to.exist;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "wellness-hub-client",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "wellness-hub-secret",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "staff1",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{keycloak_url}}/realms/wellness-hub/protocol/openid-connect/token",
+							"host": ["{{keycloak_url}}"],
+							"path": ["realms", "wellness-hub", "protocol", "openid-connect", "token"]
+						},
+						"description": "Get JWT token for staff user using Resource Owner Password grant type"
+					},
+					"response": []
+				},
+				{
+					"name": "1.2 Get Student Token (Resource Owner Password)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.access_token) {",
+									"    pm.collectionVariables.set(\"student_token\", jsonData.access_token);",
+									"    console.log(\"Student token saved successfully!\");",
+									"}",
+									"",
+									"pm.test(\"Token received successfully\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(jsonData.access_token).to.exist;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "wellness-hub-client",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "wellness-hub-secret",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "student1",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{keycloak_url}}/realms/wellness-hub/protocol/openid-connect/token",
+							"host": ["{{keycloak_url}}"],
+							"path": ["realms", "wellness-hub", "protocol", "openid-connect", "token"]
+						},
+						"description": "Get JWT token for student user using Resource Owner Password grant type"
+					},
+					"response": []
+				},
+				{
+					"name": "1.3 Get Admin Token (Resource Owner Password)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.access_token) {",
+									"    pm.collectionVariables.set(\"admin_token\", jsonData.access_token);",
+									"    console.log(\"Admin token saved successfully!\");",
+									"}",
+									"",
+									"pm.test(\"Token received successfully\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(jsonData.access_token).to.exist;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "wellness-hub-client",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "wellness-hub-secret",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{keycloak_url}}/realms/wellness-hub/protocol/openid-connect/token",
+							"host": ["{{keycloak_url}}"],
+							"path": ["realms", "wellness-hub", "protocol", "openid-connect", "token"]
+						},
+						"description": "Get JWT token for admin user using Resource Owner Password grant type"
+					},
+					"response": []
+				},
+				{
+					"name": "1.4 Get Token (Client Credentials)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.access_token) {",
+									"    pm.collectionVariables.set(\"client_credentials_token\", jsonData.access_token);",
+									"    console.log(\"Client credentials token saved successfully!\");",
+									"}",
+									"",
+									"pm.test(\"Token received successfully\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(jsonData.access_token).to.exist;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "wellness-hub-client",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "wellness-hub-secret",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{keycloak_url}}/realms/wellness-hub/protocol/openid-connect/token",
+							"host": ["{{keycloak_url}}"],
+							"path": ["realms", "wellness-hub", "protocol", "openid-connect", "token"]
+						},
+						"description": "Get JWT token using Client Credentials grant type (machine-to-machine)"
+					},
+					"response": []
+				}
+			],
+			"description": "Authentication endpoints - Run these first to get tokens"
+		},
+		{
+			"name": "2. Wellness Resource Service",
+			"item": [
+				{
+					"name": "2.1 Create Resource (Staff)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{staff_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Stress Management Workshop\",\n    \"description\": \"Learn effective techniques to manage daily stress and anxiety through mindfulness and relaxation exercises\",\n    \"category\": \"Mental Health\",\n    \"url\": \"https://wellness.georgebrown.ca/stress-management\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/resources",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "resources"]
+						},
+						"description": "Create a new wellness resource (requires staff or admin role)"
+					},
+					"response": []
+				},
+				{
+					"name": "2.2 Get All Resources",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{staff_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/resources",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "resources"]
+						},
+						"description": "Get all wellness resources"
+					},
+					"response": []
+				},
+				{
+					"name": "2.3 Get Resource by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{staff_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/resources/1",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "resources", "1"]
+						},
+						"description": "Get a specific wellness resource by ID (Redis cache may be used)"
+					},
+					"response": []
+				},
+				{
+					"name": "2.4 Get Resources by Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{staff_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/resources?category=Mental Health",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "resources"],
+							"query": [
+								{
+									"key": "category",
+									"value": "Mental Health"
+								}
+							]
+						},
+						"description": "Filter resources by category"
+					},
+					"response": []
+				},
+				{
+					"name": "2.5 Search Resources",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{staff_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/resources/search?keyword=stress",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "resources", "search"],
+							"query": [
+								{
+									"key": "keyword",
+									"value": "stress"
+								}
+							]
+						},
+						"description": "Search resources by keyword"
+					},
+					"response": []
+				},
+				{
+					"name": "2.6 Update Resource (Staff)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{staff_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Advanced Stress Management Workshop\",\n    \"description\": \"Updated comprehensive stress management program with new techniques\",\n    \"category\": \"Mental Health\",\n    \"url\": \"https://wellness.georgebrown.ca/stress-management-advanced\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/resources/1",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "resources", "1"]
+						},
+						"description": "Update an existing wellness resource (requires staff or admin role)"
+					},
+					"response": []
+				},
+				{
+					"name": "2.7 Delete Resource (Staff)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{staff_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/resources/1",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "resources", "1"]
+						},
+						"description": "Delete a wellness resource (requires staff or admin role)"
+					},
+					"response": []
+				}
+			],
+			"description": "Wellness Resource Service - PostgreSQL + Redis Cache"
+		},
+		{
+			"name": "3. Goal Tracking Service",
+			"item": [
+				{
+					"name": "3.1 Create Goal (Student)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.goalId) {",
+									"    pm.collectionVariables.set(\"goal_id\", jsonData.goalId);",
+									"    console.log(\"Goal ID saved: \" + jsonData.goalId);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{student_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"studentId\": \"STU001\",\n    \"title\": \"Improve Sleep Quality\",\n    \"description\": \"Achieve consistent 8 hours of sleep per night for better mental health\",\n    \"category\": \"Physical Health\",\n    \"targetDate\": \"2025-06-30\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/goals",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "goals"]
+						},
+						"description": "Create a new wellness goal (student, staff, or admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "3.2 Get All Goals",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{student_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/goals",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "goals"]
+						},
+						"description": "Get all goals"
+					},
+					"response": []
+				},
+				{
+					"name": "3.3 Get Goals by Status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{student_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/goals?status=ACTIVE",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "goals"],
+							"query": [
+								{
+									"key": "status",
+									"value": "ACTIVE"
+								}
+							]
+						},
+						"description": "Filter goals by status (ACTIVE, COMPLETED, ABANDONED)"
+					},
+					"response": []
+				},
+				{
+					"name": "3.4 Get Goal by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{student_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/goals/{{goal_id}}",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "goals", "{{goal_id}}"]
+						},
+						"description": "Get a specific goal by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "3.5 Get Goals by Student ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{student_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/goals/student/STU001",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "goals", "student", "STU001"]
+						},
+						"description": "Get all goals for a specific student"
+					},
+					"response": []
+				},
+				{
+					"name": "3.6 Get Goal with Suggested Resources",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{student_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/goals/{{goal_id}}/suggested-resources",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "goals", "{{goal_id}}", "suggested-resources"]
+						},
+						"description": "Get goal with suggested resources from Wellness Service (uses Circuit Breaker)"
+					},
+					"response": []
+				},
+				{
+					"name": "3.7 Update Goal",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{student_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"studentId\": \"STU001\",\n    \"title\": \"Improve Sleep Quality - Updated\",\n    \"description\": \"Updated goal: Achieve consistent 8 hours of sleep with better sleep hygiene\",\n    \"category\": \"Physical Health\",\n    \"targetDate\": \"2025-07-31\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/goals/{{goal_id}}",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "goals", "{{goal_id}}"]
+						},
+						"description": "Update an existing goal"
+					},
+					"response": []
+				},
+				{
+					"name": "3.8 Update Goal Progress",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{student_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"progress\": 75\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/goals/{{goal_id}}/progress",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "goals", "{{goal_id}}", "progress"]
+						},
+						"description": "Update goal progress (0-100)"
+					},
+					"response": []
+				},
+				{
+					"name": "3.9 Complete Goal (Triggers Kafka Event)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{student_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/goals/{{goal_id}}/complete",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "goals", "{{goal_id}}", "complete"]
+						},
+						"description": "Mark goal as complete - triggers Kafka event to Event Service"
+					},
+					"response": []
+				},
+				{
+					"name": "3.10 Delete Goal",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{student_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/goals/{{goal_id}}",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "goals", "{{goal_id}}"]
+						},
+						"description": "Delete a goal"
+					},
+					"response": []
+				}
+			],
+			"description": "Goal Tracking Service - MongoDB"
+		},
+		{
+			"name": "4. Event Service",
+			"item": [
+				{
+					"name": "4.1 Create Event (Staff)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.eventId) {",
+									"    pm.collectionVariables.set(\"event_id\", jsonData.eventId);",
+									"    console.log(\"Event ID saved: \" + jsonData.eventId);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{staff_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Morning Yoga Session\",\n    \"description\": \"Relaxing yoga class for stress relief and flexibility\",\n    \"category\": \"Physical Health\",\n    \"eventDate\": \"2025-12-15T10:00:00\",\n    \"location\": \"Campus Recreation Center - Room 101\",\n    \"capacity\": 30\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/events",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "events"]
+						},
+						"description": "Create a new event (requires staff or admin role)"
+					},
+					"response": []
+				},
+				{
+					"name": "4.2 Get All Events",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{student_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/events",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "events"]
+						},
+						"description": "Get all events"
+					},
+					"response": []
+				},
+				{
+					"name": "4.3 Get Event by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{student_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/events/{{event_id}}",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "events", "{{event_id}}"]
+						},
+						"description": "Get a specific event by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "4.4 Get Events by Category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{student_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/events/category/Physical Health",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "events", "category", "Physical Health"]
+						},
+						"description": "Get events by category"
+					},
+					"response": []
+				},
+				{
+					"name": "4.5 Get Upcoming Events",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{student_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/events/upcoming",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "events", "upcoming"]
+						},
+						"description": "Get all upcoming events"
+					},
+					"response": []
+				},
+				{
+					"name": "4.6 Register Student for Event",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{student_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"studentId\": \"STU001\",\n    \"studentName\": \"John Student\",\n    \"studentEmail\": \"student1@georgebrown.ca\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/events/{{event_id}}/register",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "events", "{{event_id}}", "register"]
+						},
+						"description": "Register a student for an event"
+					},
+					"response": []
+				},
+				{
+					"name": "4.7 Update Event (Staff)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{staff_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Advanced Yoga Session\",\n    \"description\": \"Updated yoga class for intermediate and advanced students\",\n    \"category\": \"Physical Health\",\n    \"eventDate\": \"2025-12-20T10:00:00\",\n    \"location\": \"Campus Recreation Center - Room 102\",\n    \"capacity\": 25\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/events/{{event_id}}",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "events", "{{event_id}}"]
+						},
+						"description": "Update an existing event (requires staff or admin role)"
+					},
+					"response": []
+				},
+				{
+					"name": "4.8 Delete Event (Staff)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{staff_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/events/{{event_id}}",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "events", "{{event_id}}"]
+						},
+						"description": "Delete an event (requires staff or admin role)"
+					},
+					"response": []
+				}
+			],
+			"description": "Event Service - PostgreSQL"
+		},
+		{
+			"name": "5. Role-Based Access Control Tests",
+			"item": [
+				{
+					"name": "5.1 Student Create Resource (Should Fail 403)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 403 Forbidden\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"console.log(\"Expected 403 - Student cannot create resources\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{student_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Unauthorized Resource\",\n    \"description\": \"This should fail - student cannot create resources\",\n    \"category\": \"Test\",\n    \"url\": \"http://test.com\"\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/resources",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "resources"]
+						},
+						"description": "Student trying to create a resource - should fail with 403 Forbidden"
+					},
+					"response": []
+				},
+				{
+					"name": "5.2 Student Delete Event (Should Fail 403)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 403 Forbidden\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									"",
+									"console.log(\"Expected 403 - Student cannot delete events\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{student_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/events/1",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "events", "1"]
+						},
+						"description": "Student trying to delete an event - should fail with 403 Forbidden"
+					},
+					"response": []
+				},
+				{
+					"name": "5.3 No Token Request (Should Fail 401)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Should return 401 Unauthorized\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"console.log(\"Expected 401 - No authentication token provided\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/resources",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "resources"]
+						},
+						"description": "Request without authentication token - should fail with 401 Unauthorized"
+					},
+					"response": []
+				}
+			],
+			"description": "Tests for role-based access control - demonstrating 403 and 401 responses"
+		},
+		{
+			"name": "6. Health and Monitoring",
+			"item": [
+				{
+					"name": "6.1 Gateway Health",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/actuator/health",
+							"host": ["{{gateway_url}}"],
+							"path": ["actuator", "health"]
+						},
+						"description": "Check API Gateway health status"
+					},
+					"response": []
+				},
+				{
+					"name": "6.2 Wellness Service Health",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/actuator/health",
+							"host": ["http://localhost"],
+							"port": "8081",
+							"path": ["actuator", "health"]
+						},
+						"description": "Check Wellness Resource Service health status"
+					},
+					"response": []
+				},
+				{
+					"name": "6.3 Goal Service Health",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/actuator/health",
+							"host": ["http://localhost"],
+							"port": "8082",
+							"path": ["actuator", "health"]
+						},
+						"description": "Check Goal Tracking Service health status"
+					},
+					"response": []
+				},
+				{
+					"name": "6.4 Event Service Health",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8083/actuator/health",
+							"host": ["http://localhost"],
+							"port": "8083",
+							"path": ["actuator", "health"]
+						},
+						"description": "Check Event Service health status"
+					},
+					"response": []
+				},
+				{
+					"name": "6.5 Circuit Breaker Status",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/actuator/circuitbreakers",
+							"host": ["{{gateway_url}}"],
+							"path": ["actuator", "circuitbreakers"]
+						},
+						"description": "Check circuit breaker states"
+					},
+					"response": []
+				}
+			],
+			"description": "Health check and monitoring endpoints"
+		},
+		{
+			"name": "7. Circuit Breaker Test",
+			"item": [
+				{
+					"name": "7.1 Get Resources (Before Stopping Service)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{staff_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/resources",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "resources"]
+						},
+						"description": "Step 1: Get resources normally before stopping the service"
+					},
+					"response": []
+				},
+				{
+					"name": "7.2 Get Resources (After Stopping Service - Fallback)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// After running 'docker stop wellness-resource-service'",
+									"// This request should return a fallback response",
+									"console.log(\"Run 'docker stop wellness-resource-service' before this request\");",
+									"console.log(\"Expected: Fallback response from circuit breaker\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{staff_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/resources",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "resources"]
+						},
+						"description": "Step 2: After running 'docker stop wellness-resource-service', this should return fallback response"
+					},
+					"response": []
+				},
+				{
+					"name": "7.3 Goal with Suggested Resources (Fallback)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// After stopping wellness-resource-service",
+									"// This should return goal with empty resources (fallback)",
+									"console.log(\"Expected: Goal data with empty resources array (fallback)\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{student_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/goals/{{goal_id}}/suggested-resources",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "goals", "{{goal_id}}", "suggested-resources"]
+						},
+						"description": "Step 3: Test inter-service circuit breaker - should return goal with empty resources when wellness service is down"
+					},
+					"response": []
+				}
+			],
+			"description": "Circuit Breaker demonstration - stop wellness-resource-service to test fallback"
+		}
+	]
+}
